@@ -22,8 +22,8 @@ def get_text_vector(model, text):
     else:
         return np.zeros(model.vector_size)
 
-# Function to classify text using label vectors
-def classify_text(model, text, labels):
+# Function to classify text using label vectors and get top N labels
+def classify_text(model, text, labels, top_n=5):
     text_vector = get_text_vector(model, text)
     similarities = {}
     for label in labels:
@@ -32,9 +32,12 @@ def classify_text(model, text, labels):
         # Compute similarity between text vector and label vector
         similarity = 1 - cosine(text_vector, label_vector)
         similarities[label] = similarity
-    # Get the label with the highest similarity
-    predicted_label = max(similarities, key=similarities.get)
-    return predicted_label, similarities
+    
+    # Sort labels by similarity score in descending order and get top N
+    sorted_labels = sorted(similarities.items(), key=lambda item: item[1], reverse=True)
+    top_labels = sorted_labels[:top_n]
+    
+    return top_labels
 
 # Main function for interactive querying
 def main():
@@ -54,9 +57,10 @@ def main():
             print("Exiting...")
             break
 
-        predicted_label, similarities = classify_text(model, query, labels)
-        print(f"Predicted Label: {predicted_label}")
-        print(f"Similarities: {similarities}")
+        top_labels = classify_text(model, query, labels, top_n=5)
+        print(f"Top Labels:")
+        for label, similarity in top_labels:
+            print(f"Label: {label}, Similarity: {similarity:.4f}")
 
 if __name__ == "__main__":
     main()
