@@ -6,7 +6,7 @@ from tqdm import tqdm
 # Global variable for the root path
 ROOT_PATH = "E:/conda/fasttext"
 
-# Function to read a single .txt file and prepend each line with the filename as the label
+# Ensure correct label formatting in training data
 def process_file(filename, directory):
     label = os.path.splitext(filename)[0]  # Get the filename without extension
     labeled_texts = []
@@ -14,6 +14,7 @@ def process_file(filename, directory):
     with open(file_path, 'r', encoding='latin-1', errors='ignore') as file:
         for line in file:
             words = line.strip().split()  # Tokenize the line into words
+            # Append label in the correct format
             labeled_texts.append([f'__label__{label}'] + words)
     return labeled_texts
 
@@ -50,8 +51,8 @@ def train_fasttext_model(labeled_texts, model_save_path):
 
 # Main function
 def main():
-    data_directory = os.path.join(ROOT_PATH, "data/fao780")
-    model_save_path = os.path.join(ROOT_PATH, "model/indexed.model")
+    data_directory = os.path.join(ROOT_PATH, "data/krapivin2009")
+    model_save_path = os.path.join(ROOT_PATH, "model/indexed.model.krapivin2009")
 
     labeled_texts = read_labeled_text_contents(data_directory)
     train_fasttext_model(labeled_texts, model_save_path)
