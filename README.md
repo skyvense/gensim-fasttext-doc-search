@@ -2,6 +2,7 @@
 
 
 ## directories sample
+```
 E:\CONDA\FASTTEXT
 ├─data
 │  │  fao780.tar.gz
@@ -24,3 +25,4 @@ E:\CONDA\FASTTEXT
         indexed.model.syn1neg.npy
         indexed.model.wv.vectors_ngrams.npy
         indexed.model.wv.vectors_vocab.npy
+```
